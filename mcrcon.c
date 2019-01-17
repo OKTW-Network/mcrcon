@@ -23,7 +23,7 @@
 
 /*
  * Name:     mcrcon (minecraft rcon)
- * Version:  0.0.5
+ * Version:  0.0.6
  * Date:     31.08.2012
  *
  * License: zlib/libpng License
@@ -51,6 +51,11 @@
  *
  *
  * Version history:
+ *
+ * 0.0.6
+ *
+ *  - Fix error return code.
+ *
  *
  * 0.0.5
  *
@@ -162,7 +167,7 @@
 /* Safe value I think. This should me made dynamic for more stable performance! */
 #define DATA_BUFFSIZE 10240
 
-#define VERSION "0.0.5"
+#define VERSION "0.0.6"
 #define IN_NAME "mcrcon"
 #define VER_STR IN_NAME" "VERSION
 
