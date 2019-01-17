@@ -644,12 +644,12 @@ int rcon_command(int rsock, char *command)
     }
 
     ret = net_send_packet(rsock, packet);
-    if(!ret) return 0; /* send failed */
+    if(!ret) return 254; /* send failed */
 
     packet = net_recv_packet(rsock);
-    if(packet == NULL) return 0;
+    if(packet == NULL) return 253;
 
-    if(packet->id != RCON_PID) return 0; /* wrong packet id */
+    if(packet->id != RCON_PID) return 252; /* wrong packet id */
 
     if(!silent_mode) {
         /*
@@ -662,17 +662,16 @@ int rcon_command(int rsock, char *command)
             packet_print(packet);
     }
 
-    /* return 1 if world was saved */
-    return 1;
+    return 0;
 }
 
 int run_commands(int argc, char *argv[])
 {
-    int i, ok = 1, ret = 0;
+    int i, ok = 0, ret = 0;
 
-    for(i = optind; i < argc && ok; i++) {
+    for(i = optind; i < argc && ok == 0; i++) {
         ok = rcon_command(rsock, argv[i]);
-        ret += ok;
+        ret = ok;
     }
 
     return ret;
@@ -691,7 +690,7 @@ int run_terminal_mode(int rsock)
         int len = get_line(command, DATA_BUFFSIZE);
         if(command[0] == 'Q' && command[1] == 0) break;
 
-        if(len > 0 && connection_alive) ret += rcon_command(rsock, command);
+        if(len > 0 && connection_alive) ret = rcon_command(rsock, command);
 
         command[0] = len = 0;
     }
